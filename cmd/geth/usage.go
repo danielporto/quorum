@@ -300,6 +300,10 @@ var AppHelpFlagGroups = []flags.FlagGroup{
 		Flags: []cli.Flag{
 			utils.IstanbulRequestTimeoutFlag,
 			utils.IstanbulBlockPeriodFlag,
+			utils.IstanbulVFTSFlag,
+			utils.IstanbulVFTOFlag,
+			utils.IstanbulVFTUFlag,
+			utils.IstanbulVFTTFlag,
 		},
 	},
 	// END QUORUM

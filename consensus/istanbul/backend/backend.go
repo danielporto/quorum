@@ -21,6 +21,7 @@ import (
 	"math/big"
 	"sync"
 	"time"
+	"strconv"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/consensus"
@@ -393,7 +394,7 @@ func (sb *Backend) startIBFT() error {
 }
 
 func (sb *Backend) startQBFT() error {
-	sb.logger.Info("BFT: activate QVFT. S=",sb.config.S,", O=",sb.config.O,", U=",sb.config.U,", T=",sb.config.T)
+	sb.logger.Info("BFT: activate QVFT. S=" + strconv.FormatUint(sb.config.S, 10) + ", O="+ strconv.FormatUint(sb.config.O, 10) +", U="+ strconv.FormatUint(sb.config.U, 10) +", T="+ strconv.FormatUint(sb.config.T, 10) )
 	sb.logger.Trace("BFT: set ProposerPolicy sorter to ValidatorSortByByteFunc")
 	sb.config.ProposerPolicy.Use(istanbul.ValidatorSortByByte())
 	sb.qbftConsensusEnabled = true

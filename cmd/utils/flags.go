@@ -847,6 +847,26 @@ var (
 		Usage: "Default minimum difference between two consecutive block's timestamps in seconds",
 		Value: eth.DefaultConfig.Istanbul.BlockPeriod,
 	}
+	IstanbulVFTSFlag = cli.Uint64Flag{
+		Name:  "istanbul.vft.s",
+		Usage: "Default vft bound on the number of slow processes",
+		Value: eth.DefaultConfig.Istanbul.S,
+	}
+	IstanbulVFTOFlag = cli.Uint64Flag{
+		Name:  "istanbul.vft.o",
+		Usage: "Default vft bound on the number of correlated faults",
+		Value: eth.DefaultConfig.Istanbul.O,
+	}
+	IstanbulVFTUFlag = cli.Uint64Flag{
+		Name:  "istanbul.vft.u",
+		Usage: "Default vft bound on the number of total faulty processes",
+		Value: eth.DefaultConfig.Istanbul.U,
+	}
+	IstanbulVFTTFlag = cli.Uint64Flag{
+		Name:  "istanbul.vft.t",
+		Usage: "Default vft vft timer",
+		Value: eth.DefaultConfig.Istanbul.T,
+	}
 	// Multitenancy setting
 	MultitenancyFlag = cli.BoolFlag{
 		Name:  "multitenancy",
@@ -1699,6 +1719,18 @@ func setIstanbul(ctx *cli.Context, cfg *eth.Config) {
 	}
 	if ctx.GlobalIsSet(IstanbulBlockPeriodFlag.Name) {
 		cfg.Istanbul.BlockPeriod = ctx.GlobalUint64(IstanbulBlockPeriodFlag.Name)
+	}
+	if ctx.GlobalIsSet(IstanbulVFTSFlag.Name) {
+		cfg.Istanbul.S = ctx.GlobalUint64(IstanbulVFTSFlag.Name)
+	}
+	if ctx.GlobalIsSet(IstanbulVFTOFlag.Name) {
+		cfg.Istanbul.O = ctx.GlobalUint64(IstanbulVFTOFlag.Name)
+	}
+	if ctx.GlobalIsSet(IstanbulVFTUFlag.Name) {
+		cfg.Istanbul.U = ctx.GlobalUint64(IstanbulVFTUFlag.Name)
+	}
+	if ctx.GlobalIsSet(IstanbulVFTTFlag.Name) {
+		cfg.Istanbul.T = ctx.GlobalUint64(IstanbulVFTTFlag.Name)
 	}
 }
 
