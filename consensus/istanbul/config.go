@@ -101,6 +101,10 @@ type Config struct {
 	Ceil2Nby3Block         *big.Int        `toml:",omitempty"` // Number of confirmations required to move from one state to next [2F + 1 to Ceil(2N/3)]
 	AllowedFutureBlockTime uint64          `toml:",omitempty"` // Max time (in seconds) from current time allowed for blocks, before they're considered future blocks
 	TestQBFTBlock          *big.Int        `toml:",omitempty"` // Fork block at which block confirmations are done using qbft consensus instead of ibft
+	S 					   uint64		   `toml:",omitempty"` // VFT bound on slow processes
+	O 					   uint64		   `toml:",omitempty"` // VFT bound on correlated failures processes
+	U 					   uint64		   `toml:",omitempty"` // VFT total faults
+	T 					   uint64		   `toml:",omitempty"` // VFT timer
 }
 
 var DefaultConfig = &Config{
@@ -111,6 +115,10 @@ var DefaultConfig = &Config{
 	Ceil2Nby3Block:         big.NewInt(0),
 	AllowedFutureBlockTime: 0,
 	TestQBFTBlock:          big.NewInt(0),
+	S: 						0,
+	O: 						0,
+	U: 						0,
+	T: 						0,
 }
 
 // QBFTBlockNumber returns the qbftBlock fork block number, returns -1 if qbftBlock is not defined

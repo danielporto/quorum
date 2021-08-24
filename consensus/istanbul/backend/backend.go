@@ -393,7 +393,7 @@ func (sb *Backend) startIBFT() error {
 }
 
 func (sb *Backend) startQBFT() error {
-	sb.logger.Info("BFT: activate QBFT")
+	sb.logger.Info("BFT: activate QVFT. S=",sb.config.S,", O=",sb.config.O,", U=",sb.config.U,", T=",sb.config.T)
 	sb.logger.Trace("BFT: set ProposerPolicy sorter to ValidatorSortByByteFunc")
 	sb.config.ProposerPolicy.Use(istanbul.ValidatorSortByByte())
 	sb.qbftConsensusEnabled = true

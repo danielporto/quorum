@@ -380,6 +380,10 @@ type IstanbulConfig struct {
 	ProposerPolicy uint64   `json:"policy"`                   // The policy for proposer selection
 	Ceil2Nby3Block *big.Int `json:"ceil2Nby3Block,omitempty"` // Number of confirmations required to move from one state to next [2F + 1 to Ceil(2N/3)]
 	TestQBFTBlock  *big.Int `json:"testQBFTBlock,omitempty"`  // Fork block at which block confirmations are done using qbft consensus instead of ibft
+	S			   uint64   `json:"vft_s,omitempty"`          // VFT bound on slow processes (genesis parameter)
+	O 			   uint64   `json:"vft_o,omitempty"`          // VFT bound on correlated faulty processes (genesis parameter)
+	U 			   uint64   `json:"vft_u,omitempty"`          // VFT bound on total faulty processes (genesis parameter)
+	T 			   uint64   `json:"vft_t,omitempty"`          // VFT timer in ms (genesis parameter)
 }
 
 // String implements the stringer interface, returning the consensus engine details.
