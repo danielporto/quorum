@@ -366,7 +366,7 @@ func (sb *Backend) snapshot(chain consensus.ChainHeaderReader, number uint64, ha
 				return nil, err
 			}
 
-			snap = newSnapshot(sb.config.Epoch, 0, genesis.Hash(), validator.NewSet(validators, sb.config.ProposerPolicy))
+			snap = newSnapshot(sb.config.Epoch, 0, genesis.Hash(), validator.NewSet(validators, sb.config.ProposerPolicy, int(sb.config.U), int(sb.config.S), int(sb.config.O), int(sb.config.T)))
 			if err := sb.storeSnap(snap); err != nil {
 				return nil, err
 			}

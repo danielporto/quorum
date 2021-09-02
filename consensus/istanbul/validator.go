@@ -100,6 +100,14 @@ type ValidatorSet interface {
 	Copy() ValidatorSet
 	// Get the maximum number of faulty nodes
 	F() int
+	// Get the maximum number of faulty nodes
+	U() int
+	// Get the maximum number of slow nodes
+	S() int
+	// Get the maximum number of corrupted set size
+	O() int
+	// Get the timer for quorum size change
+	T() int
 	// Get proposer policy
 	Policy() ProposerPolicy
 

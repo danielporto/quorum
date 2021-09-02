@@ -29,8 +29,8 @@ func New(addr common.Address) istanbul.Validator {
 	}
 }
 
-func NewSet(addrs []common.Address, policy *istanbul.ProposerPolicy) istanbul.ValidatorSet {
-	return newDefaultSet(addrs, policy)
+func NewSet(addrs []common.Address, policy *istanbul.ProposerPolicy, u int, s int, o int, t int) istanbul.ValidatorSet {
+	return newDefaultSet(addrs, policy, u, s, o, t)
 }
 
 func ExtractValidators(extraData []byte) []common.Address {

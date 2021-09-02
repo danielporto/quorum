@@ -17,7 +17,6 @@
 package validator
 
 import (
-	"math"
 	"reflect"
 	"sync"
 
@@ -46,9 +45,13 @@ type defaultSet struct {
 	proposer    istanbul.Validator
 	validatorMu sync.RWMutex
 	selector    istanbul.ProposalSelector
+	vft_u 			int
+	vft_s 			int
+	vft_o 			int
+	vft_t 			int
 }
 
-func newDefaultSet(addrs []common.Address, policy *istanbul.ProposerPolicy) *defaultSet {
+func newDefaultSet(addrs []common.Address, policy *istanbul.ProposerPolicy, u int, s int, o int, t int) *defaultSet {
 	valSet := &defaultSet{}
 
 	valSet.policy = policy
@@ -67,6 +70,10 @@ func newDefaultSet(addrs []common.Address, policy *istanbul.ProposerPolicy) *def
 	if policy.Id == istanbul.Sticky {
 		valSet.selector = stickyProposer
 	}
+	valSet.vft_u = u
+	valSet.vft_s = s
+	valSet.vft_o = o
+	valSet.vft_t = t
 
 	policy.RegisterValidatorSet(valSet)
 
@@ -199,9 +206,16 @@ func (valSet *defaultSet) Copy() istanbul.ValidatorSet {
 	for _, v := range valSet.validators {
 		addresses = append(addresses, v.Address())
 	}
-	return NewSet(addresses, valSet.policy)
+	return NewSet(addresses, valSet.policy, valSet.vft_u, valSet.vft_s,valSet.vft_o, valSet.vft_t)
 }
 
-func (valSet *defaultSet) F() int { return int(math.Ceil(float64(valSet.Size())/3)) - 1 }
+func (valSet *defaultSet) F() int {
+	return valSet.U()
+//	return int(math.Ceil(float64(valSet.Size())/3)) - 1
+}
+func (valSet *defaultSet) U() int {	return valSet.vft_u }
+func (valSet *defaultSet) S() int {	return valSet.vft_s }
+func (valSet *defaultSet) O() int {	return valSet.vft_o }
+func (valSet *defaultSet) T() int {	return valSet.vft_t }
 
 func (valSet *defaultSet) Policy() istanbul.ProposerPolicy { return *valSet.policy }

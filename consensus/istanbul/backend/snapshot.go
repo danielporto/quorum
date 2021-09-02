@@ -55,6 +55,10 @@ type Snapshot struct {
 	Votes  []*Vote                  // List of votes cast in chronological order
 	Tally  map[common.Address]Tally // Current vote tally to avoid recalculating
 	ValSet istanbul.ValidatorSet    // Set of authorized validators at this moment
+	U uint64 // VFT
+	S uint64 // VFT
+	O uint64 //VFT
+	T uint64 // VFT
 }
 
 // newSnapshot create a new snapshot with the specified startup parameters. This
@@ -183,6 +187,10 @@ type snapshotJSON struct {
 	// for validator set
 	Validators []common.Address          `json:"validators"`
 	Policy     istanbul.ProposerPolicyId `json:"policy"`
+	S 					   uint64		 `json:",vfts"` // VFT bound on slow processes
+	O 					   uint64		 `json:",vfto"` // VFT bound on correlated failures processes
+	U 					   uint64		 `json:",vftu"` // VFT total faults
+	T 					   uint64		 `json:",vftt"` // VFT timer
 }
 
 func (s *Snapshot) toJSONStruct() *snapshotJSON {
@@ -194,6 +202,10 @@ func (s *Snapshot) toJSONStruct() *snapshotJSON {
 		Tally:      s.Tally,
 		Validators: s.validators(),
 		Policy:     s.ValSet.Policy().Id,
+		U:			s.U,
+		S:			s.S,
+		O:			s.O,
+		T:			s.T,
 	}
 }
 
@@ -209,10 +221,14 @@ func (s *Snapshot) UnmarshalJSON(b []byte) error {
 	s.Hash = j.Hash
 	s.Votes = j.Votes
 	s.Tally = j.Tally
+	s.U		= j.U
+	s.S		= j.S
+	s.O		= j.O
+	s.T		= j.T
 
 	// Setting the By function to ValidatorSortByStringFunc should be fine, as the validator do not change only the order changes
 	pp := &istanbul.ProposerPolicy{Id: j.Policy, By: istanbul.ValidatorSortByString()}
-	s.ValSet = validator.NewSet(j.Validators, pp)
+	s.ValSet = validator.NewSet(j.Validators, pp, int(s.U), int(s.S), int(s.O), int(s.T))
 	return nil
 }
 
