@@ -268,9 +268,9 @@ func (e *Engine) verifyCommittedSeals(chain consensus.ChainHeaderReader, header 
 	}
 
 	// The length of validSeal should be larger than number of faulty node + 1
-	fmt.Println("QVFT: validSeal Formula used N-S")
 	N := e.cfg.U + uint64(math.Min(float64(int(e.cfg.S)),float64(int(e.cfg.U)))) + e.cfg.O + 1
 	s := int(N - e.cfg.S)
+	fmt.Println("QVFT: validSeal Formula used N-S: ",N, e.cfg.S, s )
 	if validSeal <= s {
 		return istanbulcommon.ErrInvalidCommittedSeals
 	}

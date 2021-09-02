@@ -275,8 +275,8 @@ func (c *core) QuorumSize() int {
 	//c.currentLogger(true, nil).Trace("QBFT: confirmation Formula used ceil(2N/3)")
 	//return int(math.Ceil(float64(2*c.valSet.Size()) / 3))
 
-	c.currentLogger(true, nil).Trace("QVFT: confirmation Formula used N-S")
 	N := c.config.U + uint64(math.Min(float64(int(c.config.S)),float64(int(c.config.U)))) + c.config.O + 1
+	c.currentLogger(true, nil).Trace("QVFT: confirmation Formula used N-S: ", N, c.config.S)
 	return int(N - c.config.S)
 }
 
