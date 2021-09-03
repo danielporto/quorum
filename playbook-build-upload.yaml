@@ -1,0 +1,25 @@
+- hosts: webserver 
+  any_errors_fatal: true
+  gather_facts: no
+  become: no
+  vars:
+    - goquorum_webserver_path: /home/dporto/services/web_server/data/html/packages/kaioken/goquorum
+    - goquorum_geth_vftversion: 21.7.0
+  
+  # the binary that runs baremetal must be built in a baremetal machine otherwise it wont work
+  tasks: 
+  - name: Build VFT GoQuorum 
+    delegate_to: 127.0.0.1 
+    run_once: true   
+    command: "make"
+
+  - name: Ensures webserver directory exists
+    file: path={{ item }} state=directory
+    with_items:
+      - "{{ goquorum_webserver_path }}/bin/geth/vft/{{goquorum_geth_vftversion}}"
+
+  - name: Uploading VFT Geth binary version {{goquorum_geth_vftversion}} to the webserver (for faster deployment) 
+    copy:
+      src: ".//build/bin/geth"
+      dest: "{{ goquorum_webserver_path }}/bin/geth/vft/{{goquorum_geth_vftversion}}"
+
