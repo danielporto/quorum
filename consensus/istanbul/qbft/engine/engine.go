@@ -2,7 +2,6 @@ package qbftengine
 
 import (
 	"bytes"
-	"fmt"
 	"math/big"
 	"time"
 
@@ -267,7 +266,7 @@ func (e *Engine) verifyCommittedSeals(chain consensus.ChainHeaderReader, header 
 	}
 
 	// The length of validSeal should be larger than number of faulty node + 1
-	fmt.Println("QVFT: validSeal Formula used U: ", validators.U() )
+	//fmt.Println("QVFT: validSeal Formula used U: ", validators.U() )
 	if validSeal <= validators.U() {
 		return istanbulcommon.ErrInvalidCommittedSeals
 	}
