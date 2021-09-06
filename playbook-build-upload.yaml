@@ -8,6 +8,12 @@
   
   # the binary that runs baremetal must be built in a baremetal machine otherwise it wont work
   tasks: 
+  - name: Clean environment
+    delegate_to: 127.0.0.1 
+    run_once: true   
+    command: "make clean"
+
+
   - name: Build VFT GoQuorum 
     delegate_to: 127.0.0.1 
     run_once: true   
@@ -20,6 +26,6 @@
 
   - name: Uploading VFT Geth binary version {{goquorum_geth_vftversion}} to the webserver (for faster deployment) 
     copy:
-      src: ".//build/bin/geth"
+      src: "./build/bin/geth"
       dest: "{{ goquorum_webserver_path }}/bin/geth/vft/{{goquorum_geth_vftversion}}"
 
