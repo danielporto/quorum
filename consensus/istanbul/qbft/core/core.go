@@ -19,6 +19,7 @@ package core
 import (
 	"math"
 	"math/big"
+	"strconv"
 	"sync"
 	"time"
 
@@ -268,15 +269,17 @@ func (c *core) checkValidatorSignature(data []byte, sig []byte) (common.Address,
 }
 
 func (c *core) QuorumSize() int {
-	//if c.config.Ceil2Nby3Block == nil || (c.current != nil && c.current.sequence.Cmp(c.config.Ceil2Nby3Block) < 0) {
-	//	c.currentLogger(true, nil).Trace("QBFT: confirmation Formula used 2F+ 1")
-	//	return (2 * c.valSet.F()) + 1
-	//}
-	//c.currentLogger(true, nil).Trace("QBFT: confirmation Formula used ceil(2N/3)")
+	if c.config.Ceil2Nby3Block == nil || (c.current != nil && c.current.sequence.Cmp(c.config.Ceil2Nby3Block) < 0) {
+		c.currentLogger(true, nil).Trace("QBFT: confirmation Formula used 2F+ 1")
+		return (2 * c.valSet.F()) + 1
+	}
+	//qs := int(math.Ceil(float64(2*c.valSet.Size()) / 3))
+	//c.currentLogger(true, nil).Trace("QBFT: confirmation Formula used ceil(2N/3):", qs)
 	//return int(math.Ceil(float64(2*c.valSet.Size()) / 3))
 
-	N := c.config.U + uint64(math.Min(float64(int(c.config.S)),float64(int(c.config.U)))) + c.config.O + 1
-	c.currentLogger(true, nil).Trace("QVFT: confirmation Formula used N-S: ", N, c.config.S)
+	N := c.config.U + uint64(math.Min(float64(c.config.S),float64(c.config.U))) + c.config.O + 1
+	stlog := "QVFT: confirmation Formula used N-S: (" + strconv.Itoa(int(N)) + "-" + strconv.Itoa(int(c.config.S))+")"
+	c.currentLogger(true, nil).Trace(stlog)
 	return int(N - c.config.S)
 }
 

@@ -131,17 +131,17 @@ func (c *core) handleRoundChange(roundChange *qbfttypes.RoundChange) error {
 
 	logger = logger.New("higherRoundChanges.count", num, "currentRoundChanges.count", currentRoundMessages)
 
-	if num == c.valSet.F()+1 {
-		// We received F+1 ROUND-CHANGE messages (this may happen before our timeout exprired)
+	if num == c.valSet.U()+1 {
+		// We received U+1 ROUND-CHANGE messages (this may happen before our timeout exprired)
 		// we start new round and broadcast ROUND-CHANGE message
 		newRound := c.roundChangeSet.getMinRoundChange(currentRound)
 
-		logger.Info("QBFT: received F+1 ROUND-CHANGE messages", "F", c.valSet.F())
+		logger.Info("QVFT: received U+1 ROUND-CHANGE messages", "U", c.valSet.U())
 
 		c.startNewRound(newRound)
 		c.broadcastRoundChange(newRound)
 	} else if currentRoundMessages >= c.QuorumSize() && c.IsProposer() && c.current.preprepareSent.Cmp(currentRound) < 0 {
-		logger.Info("QBFT: received quorum of ROUND-CHANGE messages")
+		logger.Info("QVFT: received quorum of ROUND-CHANGE messages")
 
 		// We received quorum of ROUND-CHANGE for current round and we are proposer
 

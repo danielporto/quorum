@@ -17,6 +17,7 @@
 package validator
 
 import (
+	"math"
 	"reflect"
 	"sync"
 
@@ -210,8 +211,7 @@ func (valSet *defaultSet) Copy() istanbul.ValidatorSet {
 }
 
 func (valSet *defaultSet) F() int {
-	return valSet.U()
-//	return int(math.Ceil(float64(valSet.Size())/3)) - 1
+	return int(math.Ceil(float64(valSet.Size())/3)) - 1
 }
 func (valSet *defaultSet) U() int {	return valSet.vft_u }
 func (valSet *defaultSet) S() int {	return valSet.vft_s }
