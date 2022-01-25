@@ -273,14 +273,15 @@ func (c *core) QuorumSize() int {
 		c.currentLogger(true, nil).Trace("QBFT: confirmation Formula used 2F+ 1")
 		return (2 * c.valSet.F()) + 1
 	}
-	//qs := int(math.Ceil(float64(2*c.valSet.Size()) / 3))
+	qs := int(math.Ceil(float64(2*c.valSet.Size()) / 3))
 	//c.currentLogger(true, nil).Trace("QBFT: confirmation Formula used ceil(2N/3):", qs)
 	//return int(math.Ceil(float64(2*c.valSet.Size()) / 3))
 
-	N := c.config.U + uint64(math.Min(float64(c.config.S),float64(c.config.U))) + c.config.O + 1
-	stlog := "QVFT: confirmation Formula used N-S: (" + strconv.Itoa(int(N)) + "-" + strconv.Itoa(int(c.config.S))+")"
+	N := c.config.U + uint64(math.Min(float64(c.config.S), float64(c.config.U))) + c.config.O + 1
+	sz := int(N - c.config.S)
+	stlog := "QVFT: confirmation Formula used N-S: (" + strconv.FormatUint(N, 10) + "-" + strconv.FormatUint(c.config.S, 10) + ")=" + strconv.Itoa(sz) + " instead of " + strconv.Itoa(qs) + ";"
 	c.currentLogger(true, nil).Trace(stlog)
-	return int(N - c.config.S)
+	return sz
 }
 
 // PrepareCommittedSeal returns a committed seal for the given header and takes current round under consideration
